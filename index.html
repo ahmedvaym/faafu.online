@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faafu.Online - Your Premium Online Shopping Destination</title>
+    <title>Faafu.Online</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
@@ -259,24 +259,6 @@
             margin-left: 5px;
         }
         
-        .stock-status {
-            padding: 0 10px;
-            font-size: 12px;
-            color: #666;
-        }
-        
-        .in-stock {
-            color: #4CAF50;
-        }
-        
-        .low-stock {
-            color: #FFC107;
-        }
-        
-        .out-of-stock {
-            color: #f44336;
-        }
-        
         .product-actions {
             padding: 0 10px 10px;
             display: flex;
@@ -336,11 +318,6 @@
         .product-price {
             font-size: 20px;
             color: #ff5722;
-            margin: 10px 0;
-        }
-        
-        .product-stock {
-            font-size: 16px;
             margin: 10px 0;
         }
         
@@ -1047,8 +1024,7 @@
                     image: 'https://via.placeholder.com/300x200?text=Wireless+Earbuds',
                     description: 'High-quality wireless earbuds with 20hr battery life.',
                     category: 'electronics',
-                    featured: true,
-                    stock: 50
+                    featured: true
                 },
                 {
                     name: 'Smart Watch',
@@ -1057,8 +1033,7 @@
                     image: 'https://via.placeholder.com/300x200?text=Smart+Watch',
                     description: 'Fitness tracker with heart rate monitor and GPS.',
                     category: 'electronics',
-                    featured: true,
-                    stock: 30
+                    featured: true
                 },
                 {
                     name: 'Summer Dress',
@@ -1067,8 +1042,7 @@
                     image: 'https://via.placeholder.com/300x200?text=Summer+Dress',
                     description: 'Lightweight summer dress in various colors.',
                     category: 'fashion',
-                    featured: true,
-                    stock: 100
+                    featured: true
                 },
                 {
                     name: 'Garden Tool Set',
@@ -1077,8 +1051,7 @@
                     image: 'https://via.placeholder.com/300x200?text=Garden+Tools',
                     description: '8-piece garden tool set with storage bag.',
                     category: 'home',
-                    featured: true,
-                    stock: 25
+                    featured: true
                 },
                 {
                     name: 'Robot Toy',
@@ -1087,8 +1060,7 @@
                     image: 'https://via.placeholder.com/300x200?text=Robot+Toy',
                     description: 'Programmable robot toy for kids.',
                     category: 'toys',
-                    featured: false,
-                    stock: 15
+                    featured: false
                 },
                 {
                     name: 'Bluetooth Speaker',
@@ -1097,8 +1069,7 @@
                     image: 'https://via.placeholder.com/300x200?text=Bluetooth+Speaker',
                     description: 'Portable waterproof bluetooth speaker.',
                     category: 'electronics',
-                    featured: false,
-                    stock: 40
+                    featured: false
                 },
                 {
                     name: 'Running Shoes',
@@ -1107,8 +1078,7 @@
                     image: 'https://via.placeholder.com/300x200?text=Running+Shoes',
                     description: 'Lightweight running shoes with cushioned soles.',
                     category: 'fashion',
-                    featured: false,
-                    stock: 60
+                    featured: false
                 },
                 {
                     name: 'Air Fryer',
@@ -1117,8 +1087,7 @@
                     image: 'https://via.placeholder.com/300x200?text=Air+Fryer',
                     description: '5.5L digital air fryer with 8 preset functions.',
                     category: 'home',
-                    featured: false,
-                    stock: 20
+                    featured: false
                 }
             ];
 
@@ -1214,13 +1183,8 @@
                                         ${product.original_price > product.price ? 
                                             `<span class="original-price">$${product.original_price.toFixed(2)}</span>` : ''}
                                     </div>
-                                    <div class="stock-status ${getStockStatusClass(product.stock)}">
-                                        ${getStockStatusText(product.stock)}
-                                    </div>
                                     <div class="product-actions">
-                                        <button class="btn add-to-cart-btn" data-id="${product.id}" ${product.stock <= 0 ? 'disabled' : ''}>
-                                            ${product.stock <= 0 ? 'Out of Stock' : 'Add to Cart'}
-                                        </button>
+                                        <button class="btn add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
                                         <button class="btn view-detail-btn" data-id="${product.id}">View Details</button>
                                     </div>
                                 </div>
@@ -1264,20 +1228,6 @@
                 searchInput.value = '';
                 loadPage('products');
             });
-        }
-
-        // Get stock status text
-        function getStockStatusText(stock) {
-            if (stock <= 0) return 'Out of Stock';
-            if (stock <= 10) return `Only ${stock} left!`;
-            return `In Stock (${stock} available)`;
-        }
-
-        // Get stock status class
-        function getStockStatusClass(stock) {
-            if (stock <= 0) return 'out-of-stock';
-            if (stock <= 10) return 'low-stock';
-            return 'in-stock';
         }
 
         // Render products page
@@ -1328,13 +1278,8 @@
                                         ${product.original_price > product.price ? 
                                             `<span class="original-price">$${product.original_price.toFixed(2)}</span>` : ''}
                                     </div>
-                                    <div class="stock-status ${getStockStatusClass(product.stock)}">
-                                        ${getStockStatusText(product.stock)}
-                                    </div>
                                     <div class="product-actions">
-                                        <button class="btn add-to-cart-btn" data-id="${product.id}" ${product.stock <= 0 ? 'disabled' : ''}>
-                                            ${product.stock <= 0 ? 'Out of Stock' : 'Add to Cart'}
-                                        </button>
+                                        <button class="btn add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
                                         <button class="btn view-detail-btn" data-id="${product.id}">View Details</button>
                                     </div>
                                 </div>
@@ -1399,21 +1344,16 @@
                             ${product.original_price > product.price ? 
                                 `<span class="original-price">$${product.original_price.toFixed(2)}</span>` : ''}
                         </div>
-                        <div class="product-stock ${getStockStatusClass(product.stock)}">
-                            ${getStockStatusText(product.stock)}
-                        </div>
                         <div class="product-description">
                             <p>${product.description || 'No description available.'}</p>
                         </div>
-                        ${product.stock > 0 ? `
                         <form id="addToCartForm">
                             <div class="quantity-selector">
                                 <label for="quantity">Quantity:</label>
-                                <input type="number" name="quantity" id="quantity" value="1" min="1" max="${product.stock}">
+                                <input type="number" name="quantity" id="quantity" value="1" min="1">
                             </div>
                             <button type="submit" class="btn">Add to Cart</button>
                         </form>
-                        ` : '<p class="out-of-stock">This product is currently out of stock.</p>'}
                     </div>
                 </div>
             `;
@@ -1457,13 +1397,10 @@
                                     <div class="cart-item-price">
                                         $${item.product.price.toFixed(2)} x ${item.quantity}
                                     </div>
-                                    <div class="stock-status ${getStockStatusClass(item.product.stock)}">
-                                        ${getStockStatusText(item.product.stock)}
-                                    </div>
                                     <div class="cart-item-quantity">
                                         <button class="decrease-qty" data-id="${item.product.id}">-</button>
-                                        <input type="number" value="${item.quantity}" min="1" max="${item.product.stock}" class="qty-input" data-id="${item.product.id}">
-                                        <button class="increase-qty" data-id="${item.product.id}" ${item.quantity >= item.product.stock ? 'disabled' : ''}>+</button>
+                                        <input type="number" value="${item.quantity}" min="1" class="qty-input" data-id="${item.product.id}">
+                                        <button class="increase-qty" data-id="${item.product.id}">+</button>
                                     </div>
                                     <button class="btn remove-from-cart-btn" data-id="${item.product.id}">Remove</button>
                                 </div>
@@ -1519,11 +1456,7 @@
                 btn.addEventListener('click', (e) => {
                     const productId = e.target.dataset.id;
                     const currentQty = state.cart[productId];
-                    const product = state.products.find(p => p.id === productId);
-                    
-                    if (product && currentQty < product.stock) {
-                        updateCartItemQty(productId, currentQty + 1);
-                    }
+                    updateCartItemQty(productId, currentQty + 1);
                 });
             });
             
@@ -1531,15 +1464,7 @@
                 input.addEventListener('change', (e) => {
                     const productId = e.target.dataset.id;
                     const newQty = parseInt(e.target.value) || 1;
-                    const product = state.products.find(p => p.id === productId);
-                    
-                    if (product && newQty <= product.stock && newQty > 0) {
-                        updateCartItemQty(productId, newQty);
-                    } else if (product) {
-                        // Reset to max available if exceeds stock
-                        e.target.value = Math.min(newQty, product.stock);
-                        updateCartItemQty(productId, Math.min(newQty, product.stock));
-                    }
+                    updateCartItemQty(productId, newQty);
                 });
             });
             
@@ -1773,21 +1698,8 @@
                 state.orderDetails.paymentMethod = state.paymentMethod;
                 state.orderDetails.paymentSlip = state.uploadedFile; // Store the base64 image
                 
-                // Update product stock in Firebase
-                const updates = {};
-                state.orderDetails.items.forEach(item => {
-                    const product = state.products.find(p => p.id === item.product.id);
-                    if (product) {
-                        const newStock = product.stock - item.quantity;
-                        updates[`products/${item.product.id}/stock`] = newStock;
-                    }
-                });
-                
-                // Save order to Firebase and update stock
-                database.ref().update(updates)
-                    .then(() => {
-                        return database.ref('orders').push(state.orderDetails);
-                    })
+                // Save order to Firebase
+                database.ref('orders').push(state.orderDetails)
                     .then(() => {
                         // Clear cart after successful order
                         state.cart = {};
@@ -1951,19 +1863,10 @@
 
         // Add to cart
         function addToCart(productId, quantity = 1) {
-            const product = state.products.find(p => p.id === productId);
-            if (!product || product.stock <= 0) return;
-            
             if (state.cart[productId]) {
-                const newQty = state.cart[productId] + quantity;
-                if (newQty <= product.stock) {
-                    state.cart[productId] = newQty;
-                } else {
-                    alert(`Only ${product.stock} items available in stock.`);
-                    state.cart[productId] = product.stock;
-                }
+                state.cart[productId] += quantity;
             } else {
-                state.cart[productId] = Math.min(quantity, product.stock);
+                state.cart[productId] = quantity;
             }
             
             saveCart();

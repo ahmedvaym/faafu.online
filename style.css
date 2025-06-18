@@ -1,5 +1,4 @@
-
- * {
+* {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -249,6 +248,24 @@
             margin-left: 5px;
         }
         
+        .stock-status {
+            padding: 0 10px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .in-stock {
+            color: #4CAF50;
+        }
+        
+        .low-stock {
+            color: #FFC107;
+        }
+        
+        .out-of-stock {
+            color: #f44336;
+        }
+        
         .product-actions {
             padding: 0 10px 10px;
             display: flex;
@@ -311,6 +328,11 @@
             margin: 10px 0;
         }
         
+        .product-stock {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        
         .product-description {
             margin: 15px 0;
             line-height: 1.6;
@@ -319,6 +341,9 @@
         
         .quantity-selector {
             margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .quantity-selector input {
@@ -417,6 +442,29 @@
             color: #ff5722;
             margin: 5px 0;
             font-size: 14px;
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        
+        .cart-item-quantity button {
+            width: 25px;
+            height: 25px;
+            border: 1px solid #ddd;
+            background: #f5f5f5;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .cart-item-quantity input {
+            width: 40px;
+            height: 25px;
+            text-align: center;
+            border: 1px solid #ddd;
+            margin: 0 5px;
         }
         
         .cart-summary {
@@ -755,23 +803,4 @@
                 flex-direction: row;
                 justify-content: space-between;
             }
-        }
-    </style>
-</head>
-<body>
-    <!-- Logo Animation Container -->
-    <div class="logo-animation" id="logoAnimation">
-        <div class="logo-circle" id="logoCircle">
-            <div class="logo-text">qniwalqnow.ufAf</div>
-        </div>
-    </div>
-    <style>
-        /* Custom font for the header */
-        @font-face {
-            font-family: 'SameeAvasThaana';
-            src: url('fonts/Samee_Avas_Thaana.ttf');
-        }
-        
-        h4 {
-            font-family: 'SameeAvasThaana', sans-serif;
         }

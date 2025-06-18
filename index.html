@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faafu.Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Logo Animation Container -->
+    <div class="logo-animation" id="logoAnimation">
+        <div class="logo-circle" id="logoCircle">
+            <div class="logo-text">qniwalqnow.ufAf</div>
+        </div>
+    </div>
+    <style>
+        /* Custom font for the header */
+        @font-face {
+            font-family: 'SameeAvasThaana';
+            src: url('fonts/Samee_Avas_Thaana.ttf');
+        }
+        
+        h4 {
+            font-family: 'SameeAvasThaana', sans-serif;
+        }
+    </style>
+
+    <header>
+        <div class="container">
+            <div class="top-bar">
+                <div class="logo">
+                    <h4>qniwalqnow.ufAf</h4>
+                </div>
+                <div class="search-bar">
+                    <form id="searchForm">
+                        <input type="text" id="searchInput" placeholder="Search for products...">
+                        <button type="submit" class="btn"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+                <div class="user-actions">
+                    <a href="#" id="cartLink"><i class="fas fa-shopping-cart"></i> 
+                        <span class="cart-count" id="cartCount">0</span>
+                    </a>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link" data-page="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="products">All Products</a></li>
+                    <li><a href="#" class="nav-link" data-page="products" data-category="electronics">Electronics</a></li>
+                    <li><a href="#" class="nav-link" data-page="products" data-category="fashion">Fashion</a></li>
+                    <li><a href="#" class="nav-link" data-page="products" data-category="home">Home & Garden</a></li>
+                    <li><a href="#" class="nav-link" data-page="products" data-category="toys">Toys</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" id="mainContent">
+        <!-- Content will be dynamically loaded here -->
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-sections">
+                <div class="footer-section">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <ul>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; <span id="currentYear"></span> Faafu.Online All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -948,10 +948,8 @@
                 <ul>
                     <li><a href="#" class="nav-link" data-page="home">Home</a></li>
                     <li><a href="#" class="nav-link" data-page="products">All Products</a></li>
-                    <li><a href="#" class="nav-link" data-page="products" data-category="electronics">Electronics</a></li>
-                    <li><a href="#" class="nav-link" data-page="products" data-category="fashion">Fashion</a></li>
-                    <li><a href="#" class="nav-link" data-page="products" data-category="home">Home & Garden</a></li>
-                    <li><a href="#" class="nav-link" data-page="products" data-category="toys">Toys</a></li>
+                    <!-- Categories will be loaded dynamically -->
+                    <div id="dynamicCategories"></div>
                     <li><a href="#" class="nav-link" data-page="used-items">Used Items</a></li>
                 </ul>
             </nav>
@@ -1028,7 +1026,9 @@
             uploadedFile: null,
             products: [],
             usedItems: [],
-            discountPercentage: 0
+            discountPercentage: 0,
+            categories: [],
+            catalogName: "Faafu.Online"
         };
 
         // DOM elements
@@ -1045,6 +1045,7 @@
         const scrollProgress = document.getElementById('scrollProgress');
         const progressPercent = document.getElementById('progressPercent');
         const progressCircle = document.querySelector('.progress-circle circle');
+        const dynamicCategories = document.getElementById('dynamicCategories');
 
         // Initialize the app
         function init() {
@@ -1059,6 +1060,8 @@
                 // Load products and page after animation completes
                 setTimeout(() => {
                     logoAnimation.style.display = 'none';
+                    loadCatalogName();
+                    loadCategories();
                     loadProducts();
                     loadUsedItems();
                     loadDiscount();
@@ -1071,6 +1074,8 @@
                     logoAnimation.style.animation = 'fadeOut 0.5s ease-in-out forwards';
                     setTimeout(() => {
                         logoAnimation.style.display = 'none';
+                        loadCatalogName();
+                        loadCategories();
                         loadProducts();
                         loadUsedItems();
                         loadDiscount();
@@ -1112,6 +1117,51 @@
             
             // Hide admin link by default (will show if logged in)
             adminLink.style.display = 'none';
+        }
+
+        // Load catalog name from Firebase
+        function loadCatalogName() {
+            database.ref('catalogName').on('value', (snapshot) => {
+                const name = snapshot.val();
+                if (name) {
+                    state.catalogName = name;
+                }
+            });
+        }
+
+        // Load categories from Firebase
+        function loadCategories() {
+            database.ref('categories').on('value', (snapshot) => {
+                const categoriesData = snapshot.val();
+                if (categoriesData) {
+                    state.categories = Object.values(categoriesData);
+                    renderCategories();
+                }
+            });
+        }
+
+        // Render categories in navigation
+        function renderCategories() {
+            if (state.categories.length > 0) {
+                let categoriesHTML = '';
+                state.categories.forEach(category => {
+                    categoriesHTML += `
+                        <li><a href="#" class="nav-link" data-page="products" data-category="${category}">${category}</a></li>
+                    `;
+                });
+                dynamicCategories.innerHTML = categoriesHTML;
+                
+                // Add event listeners to new category links
+                document.querySelectorAll('#dynamicCategories .nav-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        state.currentCategory = link.dataset.category;
+                        state.currentSearch = '';
+                        searchInput.value = '';
+                        loadPage('products');
+                    });
+                });
+            }
         }
 
         // Update scroll progress indicator
@@ -1367,22 +1417,15 @@
                 <section class="categories">
                     <h2>Shop by Category</h2>
                     <div class="category-grid">
-                        <a href="#" class="category-item" data-page="products" data-category="electronics">
-                            <img src="electronicsban_orig.jpg" alt="Electronics">
-                            <h3>Electronics</h3>
-                        </a>
-                        <a href="#" class="category-item" data-page="products" data-category="fashion">
-                            <img src="korean-fashion-online-shopping.jpg" alt="Fashion">
-                            <h3>Fashion</h3>
-                        </a>
-                        <a href="#" class="category-item" data-page="products" data-category="home">
-                            <img src="images (1).png" alt="Home & Garden">
-                            <h3>Home & Garden</h3>
-                        </a>
-                        <a href="#" class="category-item" data-page="products" data-category="toys">
-                            <img src="cb314fd2c60f30c528ab0da3210623c839ce205a_56.webp" alt="Toys">
-                            <h3>Toys</h3>
-                        </a>
+                        ${state.categories.length > 0 ? 
+                            state.categories.map(category => `
+                                <a href="#" class="category-item" data-page="products" data-category="${category}">
+                                    <img src="${getCategoryImage(category)}" alt="${category}">
+                                    <h3>${category}</h3>
+                                </a>
+                            `).join('') :
+                            '<p>No categories available</p>'
+                        }
                     </div>
                 </section>
 
@@ -1497,6 +1540,26 @@
             });
         }
 
+        // Get appropriate image for category
+        function getCategoryImage(category) {
+            // Default placeholder image
+            let image = 'https://via.placeholder.com/300x200?text=' + category;
+            
+            // Map specific categories to their images
+            const categoryImages = {
+                'electronics': 'electronicsban_orig.jpg',
+                'fashion': 'korean-fashion-online-shopping.jpg',
+                'home': 'images (1).png',
+                'toys': 'cb314fd2c60f30c528ab0da3210623c839ce205a_56.webp'
+            };
+            
+            if (categoryImages[category.toLowerCase()]) {
+                image = categoryImages[category.toLowerCase()];
+            }
+            
+            return image;
+        }
+
         // Initialize slideshow
         function initSlideshow() {
             const slides = document.querySelectorAll('.slide');
@@ -1539,10 +1602,11 @@
                                value="${state.currentSearch}">
                         <select id="categoryFilter">
                             <option value="">All Categories</option>
-                            <option value="electronics" ${state.currentCategory === 'electronics' ? 'selected' : ''}>Electronics</option>
-                            <option value="fashion" ${state.currentCategory === 'fashion' ? 'selected' : ''}>Fashion</option>
-                            <option value="home" ${state.currentCategory === 'home' ? 'selected' : ''}>Home & Garden</option>
-                            <option value="toys" ${state.currentCategory === 'toys' ? 'selected' : ''}>Toys</option>
+                            ${state.categories.map(category => `
+                                <option value="${category}" ${state.currentCategory === category ? 'selected' : ''}>
+                                    ${category}
+                                </option>
+                            `).join('')}
                         </select>
                         <button type="submit" class="btn">Filter</button>
                     </form>

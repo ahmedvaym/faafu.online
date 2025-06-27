@@ -134,74 +134,137 @@
             color: #ff5722;
         }
         
+        /* New Banner Styles with Slideshow */
         .banner {
             margin: 15px 0;
-        }
-        
-        .slider {
             position: relative;
-            height: 180px;
+            width: 100%;
+            height: 300px;
             overflow: hidden;
             border-radius: 8px;
+        }
+        
+        .slideshow {
+            position: relative;
+            width: 100%;
+            height: 100%;
         }
         
         .slide {
             position: absolute;
             width: 100%;
             height: 100%;
-            background-color: #eee;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
             background-size: cover;
             background-position: center;
         }
         
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .banner-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        
         .banner-text {
-            background-color: rgba(0,0,0,0.6);
-            padding: 15px;
-            border-radius: 8px;
             text-align: center;
-            max-width: 90%;
+            color: white;
+            padding: 20px;
+            max-width: 80%;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.8s ease 0.3s;
+        }
+        
+        .slide.active .banner-text {
+            transform: translateY(0);
+            opacity: 1;
         }
         
         .banner-text h2 {
-            font-size: 24px;
-            margin-bottom: 8px;
+            font-size: 28px;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+        
+        .banner-text p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+        
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            height: 50px;
+            z-index: 1000;
+        }
+        
+        .progress-circle {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .progress-circle svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        
+        .progress-circle circle {
+            fill: none;
+            stroke: #ff5722;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-dasharray: 126;
+            stroke-dashoffset: 126;
+            transition: stroke-dashoffset 0.1s linear;
+        }
+        
+        .progress-percent {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: bold;
+            color: #ff5722;
         }
         
         .btn {
             display: inline-block;
-            padding: 8px 15px;
+            padding: 10px 20px;
             background-color: #ff5722;
             color: white;
             text-decoration: none;
             border-radius: 4px;
-            margin-top: 8px;
-            transition: background-color 0.3s;
-            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
             border: none;
-            font-size: 14px;
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid #ff5722;
-            color: #ff5722;
+            cursor: pointer;
         }
         
         .btn:hover {
             background-color: #e64a19;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
-        .btn-outline:hover {
-            background-color: #ff5722;
-            color: white;
-        }
-        
-        .categories, .featured-products, .product-listing {
+        .categories, .featured-products, .product-listing, .used-items {
             margin: 25px 0;
         }
         
@@ -212,14 +275,14 @@
             padding: 0 5px;
         }
         
-        .category-grid, .product-grid {
+        .category-grid, .product-grid, .used-items-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             padding: 0 5px;
         }
         
-        .category-item, .product-card {
+        .category-item, .product-card, .used-item-card {
             background-color: white;
             border-radius: 8px;
             overflow: hidden;
@@ -227,17 +290,18 @@
             transition: transform 0.3s;
         }
         
-        .category-item:hover, .product-card:hover {
+        .category-item:hover, .product-card:hover, .used-item-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        .category-item img, .product-card img {
+        .category-item img, .product-card img, .used-item-card img {
             width: 100%;
             height: 120px;
             object-fit: cover;
         }
         
-        .category-item h3, .product-card h3 {
+        .category-item h3, .product-card h3, .used-item-card h3 {
             padding: 10px;
             font-size: 14px;
         }
@@ -259,11 +323,21 @@
             margin-left: 5px;
         }
         
-        .product-actions {
+        .product-actions, .used-item-actions {
             padding: 0 10px 10px;
             display: flex;
             flex-direction: column;
             gap: 5px;
+        }
+        
+        .used-item-info {
+            padding: 0 10px 10px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .used-item-info p {
+            margin: 5px 0;
         }
         
         .product-filters {
@@ -770,7 +844,7 @@
                 flex: 1;
             }
             
-            .category-grid, .product-grid {
+            .category-grid, .product-grid, .used-items-grid {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 20px;
             }
@@ -787,9 +861,36 @@
                 flex-direction: row;
             }
             
-            .product-actions {
+            .product-actions, .used-item-actions {
                 flex-direction: row;
                 justify-content: space-between;
+            }
+            
+            .banner {
+                height: 400px;
+            }
+            
+            .banner-text h2 {
+                font-size: 36px;
+            }
+            
+            .banner-text p {
+                font-size: 20px;
+            }
+        }
+        
+        /* Mobile landscape and tablet portrait */
+        @media (min-width: 480px) and (max-width: 767px) {
+            .banner {
+                height: 250px;
+            }
+            
+            .banner-text h2 {
+                font-size: 24px;
+            }
+            
+            .banner-text p {
+                font-size: 16px;
             }
         }
     </style>
@@ -801,6 +902,17 @@
             <div class="logo-text">qniwalqnow.ufAf</div>
         </div>
     </div>
+    
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" id="scrollProgress">
+        <div class="progress-circle">
+            <svg>
+                <circle cx="25" cy="25" r="20"></circle>
+            </svg>
+            <div class="progress-percent" id="progressPercent">0%</div>
+        </div>
+    </div>
+    
     <style>
         /* Custom font for the header */
         @font-face {
@@ -840,6 +952,7 @@
                     <li><a href="#" class="nav-link" data-page="products" data-category="fashion">Fashion</a></li>
                     <li><a href="#" class="nav-link" data-page="products" data-category="home">Home & Garden</a></li>
                     <li><a href="#" class="nav-link" data-page="products" data-category="toys">Toys</a></li>
+                    <li><a href="#" class="nav-link" data-page="used-items">Used Items</a></li>
                 </ul>
             </nav>
         </div>
@@ -913,7 +1026,9 @@
             orderDetails: null,
             paymentMethod: null,
             uploadedFile: null,
-            products: []
+            products: [],
+            usedItems: [],
+            discountPercentage: 0
         };
 
         // DOM elements
@@ -927,6 +1042,9 @@
         const logoAnimation = document.getElementById('logoAnimation');
         const logoCircle = document.getElementById('logoCircle');
         const adminLink = document.getElementById('adminLink');
+        const scrollProgress = document.getElementById('scrollProgress');
+        const progressPercent = document.getElementById('progressPercent');
+        const progressCircle = document.querySelector('.progress-circle circle');
 
         // Initialize the app
         function init() {
@@ -942,6 +1060,8 @@
                 setTimeout(() => {
                     logoAnimation.style.display = 'none';
                     loadProducts();
+                    loadUsedItems();
+                    loadDiscount();
                 }, 500);
             });
 
@@ -952,6 +1072,8 @@
                     setTimeout(() => {
                         logoAnimation.style.display = 'none';
                         loadProducts();
+                        loadUsedItems();
+                        loadDiscount();
                     }, 500);
                 }
             }, 3000);
@@ -985,8 +1107,35 @@
                 loadPage('products');
             });
 
+            // Scroll progress indicator
+            window.addEventListener('scroll', updateScrollProgress);
+            
             // Hide admin link by default (will show if logged in)
             adminLink.style.display = 'none';
+        }
+
+        // Update scroll progress indicator
+        function updateScrollProgress() {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / scrollHeight) * 100;
+            
+            // Update the circle progress
+            const circumference = 126; // 2 * π * r (r = 20)
+            const offset = circumference - (scrollPercentage / 100) * circumference;
+            progressCircle.style.strokeDashoffset = offset;
+            
+            // Update percentage text
+            progressPercent.textContent = `${Math.round(scrollPercentage)}%`;
+            
+            // Show/hide based on scroll position
+            if (scrollTop > 100) {
+                scrollProgress.style.opacity = '1';
+                scrollProgress.style.visibility = 'visible';
+            } else {
+                scrollProgress.style.opacity = '0';
+                scrollProgress.style.visibility = 'hidden';
+            }
         }
 
         // Load products from Firebase
@@ -1010,6 +1159,34 @@
                 } else {
                     // If no products node exists, add sample products
                     addSampleProducts();
+                }
+            });
+        }
+
+        // Load used items from Firebase
+        function loadUsedItems() {
+            database.ref('usedItems').on('value', (snapshot) => {
+                const usedItemsData = snapshot.val();
+                if (usedItemsData) {
+                    state.usedItems = Object.keys(usedItemsData).map(key => {
+                        return { id: key, ...usedItemsData[key] };
+                    });
+                    
+                    if (state.currentPage === 'used-items') {
+                        loadPage('used-items');
+                    }
+                }
+            });
+        }
+
+        // Load discount percentage from Firebase
+        function loadDiscount() {
+            database.ref('discount').on('value', (snapshot) => {
+                const discountData = snapshot.val();
+                state.discountPercentage = discountData?.percentage || 0;
+                
+                if (state.currentPage === 'home') {
+                    loadPage('home');
                 }
             });
         }
@@ -1111,6 +1288,9 @@
                 case 'product':
                     renderProductDetailPage();
                     break;
+                case 'used-items':
+                    renderUsedItemsPage();
+                    break;
                 case 'cart':
                     renderCartPage();
                     break;
@@ -1129,20 +1309,56 @@
             
             // Update active nav link
             updateActiveNavLink();
+            
+            // Scroll to top when page changes
+            window.scrollTo(0, 0);
         }
 
-        // Render home page
+        // Apply discount to price
+        function applyDiscount(price) {
+            if (state.discountPercentage > 0) {
+                return price * (1 - state.discountPercentage / 100);
+            }
+            return price;
+        }
+
+        // Render home page with enhanced banner slideshow
         function renderHomePage() {
             const featuredProducts = state.products.filter(product => product.featured);
             
             mainContent.innerHTML = `
                 <section class="banner">
-                    <div class="slider">
-                        <div class="slide active">
-                            <div class="banner-text">
-                                <h2>Summer Sale!</h2>
-                                <p>Up to 70% off selected items</p>
-                                <a href="#" class="btn" id="saleBtn">Shop Now</a>
+                    <div class="slideshow">
+                        <!-- Slide 1 -->
+                        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                            <div class="banner-content">
+                                <div class="banner-text">
+                                    <h2>Summer Sale!</h2>
+                                    <p>Up to ${state.discountPercentage}% off selected items</p>
+                                    <a href="#" class="btn" id="saleBtn">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 2 -->
+                        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                            <div class="banner-content">
+                                <div class="banner-text">
+                                    <h2>New Arrivals</h2>
+                                    <p>Discover our latest collection</p>
+                                    <a href="#" class="btn" id="newArrivalsBtn">Explore</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 3 -->
+                        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                            <div class="banner-content">
+                                <div class="banner-text">
+                                    <h2>Free Shipping</h2>
+                                    <p>On all orders over MVR100</p>
+                                    <a href="#" class="btn" id="shippingBtn">Learn More</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1174,26 +1390,57 @@
                     <h2>Featured Products</h2>
                     <div class="product-grid">
                         ${featuredProducts.length > 0 ? 
-                            featuredProducts.map(product => `
+                            featuredProducts.map(product => {
+                                const discountedPrice = applyDiscount(product.price);
+                                return `
                                 <div class="product-card">
                                     <img src="${product.image}" alt="${product.name}">
                                     <h3>${product.name}</h3>
                                     <div class="price">
-                                        <span class="current-price">MVR${product.price.toFixed(2)}</span>
-                                        ${product.original_price > product.price ? 
-                                            `<span class="original-price">MVR${product.original_price.toFixed(2)}</span>` : ''}
+                                        <span class="current-price">MVR${discountedPrice.toFixed(2)}</span>
+                                        ${state.discountPercentage > 0 ? 
+                                            `<span class="original-price">MVR${product.price.toFixed(2)}</span>` : ''}
                                     </div>
                                     <div class="product-actions">
                                         <button class="btn add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
                                         <button class="btn view-detail-btn" data-id="${product.id}">View Details</button>
                                     </div>
                                 </div>
-                            `).join('') :
+                                `;
+                            }).join('') :
                             '<p>No featured products available.</p>'
                         }
                     </div>
                 </section>
+
+                <section class="used-items">
+                    <h2>Used Items</h2>
+                    <div class="used-items-grid">
+                        ${state.usedItems.length > 0 ? 
+                            state.usedItems.map(item => `
+                                <div class="used-item-card">
+                                    <img src="${item.image || 'https://via.placeholder.com/300x200?text=Used+Item'}" alt="${item.name}">
+                                    <h3>${item.name}</h3>
+                                    <div class="price">
+                                        <span class="current-price">MVR${item.price.toFixed(2)}</span>
+                                    </div>
+                                    <div class="used-item-info">
+                                        <p><i class="fas fa-map-marker-alt"></i> ${item.island}</p>
+                                        <p><i class="fas fa-phone"></i> ${item.contact}</p>
+                                    </div>
+                                    <div class="used-item-actions">
+                                        <button class="btn contact-seller-btn" data-contact="${item.contact}">Contact Seller</button>
+                                    </div>
+                                </div>
+                            `).join('') :
+                            '<p>No used items available at the moment.</p>'
+                        }
+                    </div>
+                </section>
             `;
+            
+            // Initialize slideshow
+            initSlideshow();
             
             // Add event listeners to dynamically created elements
             document.querySelectorAll('.category-item').forEach(item => {
@@ -1221,6 +1468,13 @@
                 });
             });
             
+            document.querySelectorAll('.contact-seller-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const contactNumber = btn.dataset.contact;
+                    window.location.href = `tel:${contactNumber}`;
+                });
+            });
+            
             document.getElementById('saleBtn')?.addEventListener('click', (e) => {
                 e.preventDefault();
                 state.currentCategory = null;
@@ -1228,6 +1482,34 @@
                 searchInput.value = '';
                 loadPage('products');
             });
+            
+            document.getElementById('newArrivalsBtn')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                state.currentCategory = 'fashion';
+                state.currentSearch = '';
+                searchInput.value = '';
+                loadPage('products');
+            });
+            
+            document.getElementById('shippingBtn')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Free shipping applies to all orders over MVR100. No code needed!');
+            });
+        }
+
+        // Initialize slideshow
+        function initSlideshow() {
+            const slides = document.querySelectorAll('.slide');
+            let currentSlide = 0;
+            
+            function nextSlide() {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+            
+            // Change slide every 5 seconds
+            setInterval(nextSlide, 5000);
         }
 
         // Render products page
@@ -1269,21 +1551,24 @@
                 <div class="product-listing">
                     <div class="product-grid">
                         ${filteredProducts.length > 0 ? 
-                            filteredProducts.map(product => `
+                            filteredProducts.map(product => {
+                                const discountedPrice = applyDiscount(product.price);
+                                return `
                                 <div class="product-card">
                                     <img src="${product.image}" alt="${product.name}">
                                     <h3>${product.name}</h3>
                                     <div class="price">
-                                        <span class="current-price">MVR${product.price.toFixed(2)}</span>
-                                        ${product.original_price > product.price ? 
-                                            `<span class="original-price">MVR${product.original_price.toFixed(2)}</span>` : ''}
+                                        <span class="current-price">MVR${discountedPrice.toFixed(2)}</span>
+                                        ${state.discountPercentage > 0 ? 
+                                            `<span class="original-price">MVR${product.price.toFixed(2)}</span>` : ''}
                                     </div>
                                     <div class="product-actions">
                                         <button class="btn add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
                                         <button class="btn view-detail-btn" data-id="${product.id}">View Details</button>
                                     </div>
                                 </div>
-                            `).join('') :
+                                `;
+                            }).join('') :
                             '<p>No products found matching your criteria.</p>'
                         }
                     </div>
@@ -1314,6 +1599,44 @@
             });
         }
 
+        // Render used items page
+        function renderUsedItemsPage() {
+            mainContent.innerHTML = `
+                <h1>Used Items Marketplace</h1>
+                <p style="margin-bottom: 15px;">Find great deals on used items from your island</p>
+                
+                <div class="used-items-grid">
+                    ${state.usedItems.length > 0 ? 
+                        state.usedItems.map(item => `
+                            <div class="used-item-card">
+                                <img src="${item.image || 'https://via.placeholder.com/300x200?text=Used+Item'}" alt="${item.name}">
+                                <h3>${item.name}</h3>
+                                <div class="price">
+                                    <span class="current-price">MVR${item.price.toFixed(2)}</span>
+                                </div>
+                                <div class="used-item-info">
+                                    <p><i class="fas fa-map-marker-alt"></i> ${item.island}</p>
+                                    <p><i class="fas fa-phone"></i> ${item.contact}</p>
+                                    <p>${item.description || ''}</p>
+                                </div>
+                                <div class="used-item-actions">
+                                    <button class="btn contact-seller-btn" data-contact="${item.contact}">Contact Seller</button>
+                                </div>
+                            </div>
+                        `).join('') :
+                        '<p>No used items available at the moment.</p>'
+                    }
+                </div>
+            `;
+            
+            document.querySelectorAll('.contact-seller-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const contactNumber = btn.dataset.contact;
+                    window.location.href = `tel:${contactNumber}`;
+                });
+            });
+        }
+
         // View product detail
         function viewProductDetail(productId) {
             const product = state.products.find(p => p.id === productId);
@@ -1331,6 +1654,7 @@
             }
             
             const product = state.currentProduct;
+            const discountedPrice = applyDiscount(product.price);
             
             mainContent.innerHTML = `
                 <div class="product-detail">
@@ -1340,9 +1664,9 @@
                     <div class="product-info">
                         <h1>${product.name}</h1>
                         <div class="product-price">
-                            MVR${product.price.toFixed(2)}
-                            ${product.original_price > product.price ? 
-                                `<span class="original-price">MVR${product.original_price.toFixed(2)}</span>` : ''}
+                            MVR${discountedPrice.toFixed(2)}
+                            ${state.discountPercentage > 0 ? 
+                                `<span class="original-price">MVR${product.price.toFixed(2)}</span>` : ''}
                         </div>
                         <div class="product-description">
                             <p>${product.description || 'No description available.'}</p>
@@ -1585,7 +1909,7 @@
                             <div class="payment-method-details">
                                 <div style="margin-top: 10px;">
                                     <div class="bank-info">
-                                        <p><strong>Bank Name:</strong> Bank Of Maldives</p>
+                                       <p><strong>Bank Name:</strong> Bank Of Maldives</p>
                                         <p><strong>Account Name:</strong> LAST HUNT</p>
                                         <p><strong>Account Number:</strong> 7730000345836</p>
                                         <p><strong>SWIFT/BIC:</strong> </p>
